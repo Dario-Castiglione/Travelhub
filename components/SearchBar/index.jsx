@@ -81,8 +81,8 @@ export default function SearchBar() {
           onMouseLeave={hide}
         >
           {data.data.map((res) => (
-            <Link href={`/esperienze/${res.uuid}`} key={res.uuid}>
-              <a>
+       
+              <a href={`/esperienze/${res.uuid}`} key={res.uuid}>
                 <div className={style.info} onClick={() => handleRouting(res)}>
                   <div className={style.img}>
                     <Image src={res.cover_image_url} width={150} height={150} />
@@ -93,7 +93,7 @@ export default function SearchBar() {
                   </div>
                 </div>
               </a>
-            </Link>
+            
           ))}
         </div>
       )}
