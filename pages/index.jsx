@@ -5,13 +5,12 @@ import Hero from "../components/Hero";
 import Activities from '../components/Activities';
 import Cities from '../components/Cities';
 import Layout from '../components/Layouts';
-import NavBar from "../components/NavBar"
+
 
 export default function Home({ activities, cities }) 
 {
   return (
     <Layout>
-      <NavBar />
       <Hero data={cities} />     
       <Activities data={activities} />
       <Cities data={cities.slice(0,5)} />
