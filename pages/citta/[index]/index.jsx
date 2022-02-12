@@ -18,10 +18,6 @@ export default function City({ city, activities, cities })
   // Router
   const router = useRouter();
 
-  if (router.isFallback) 
-  {
-    return <h1>loading</h1>;
-  }
   
   
 
@@ -112,6 +108,6 @@ export async function getStaticPaths()
 
   return {
     paths: paths,
-    fallback: true,
+    fallback:"blocking",
   };
 }

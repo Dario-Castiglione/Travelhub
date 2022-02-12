@@ -10,9 +10,7 @@ import CityDescription from '../../../components/CityDescription';
 export default function Activity({activity}) {
     const router = useRouter();
 
-    if(router.isFallback) {
-        return <h1>loading</h1>;
-    }
+
 
     return (
         <>
@@ -77,6 +75,6 @@ export async function getStaticPaths() {
 
     return {
         paths: paths,
-        fallback: true,
+        fallback: "blocking",
     };
 };
