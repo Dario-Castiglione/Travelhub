@@ -33,7 +33,7 @@ export default function SearchBar() {
   function handleLeave() {
     setTimeout(() => {
       dispatch(SearchBarDisappear);
-    }, 300);
+    }, 6000);
   }
 
   let timer = 0;
