@@ -1,4 +1,4 @@
-
+/*
 import { useState, useEffect } from 'react';
 import styles from './FilterActivities.module.scss';
 
@@ -43,4 +43,4 @@ const FilterActivities = ({ callback }) =>
     );
 };
 
-export default FilterActivities;
+export default FilterActivities;*/

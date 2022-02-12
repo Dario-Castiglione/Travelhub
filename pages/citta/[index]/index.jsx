@@ -26,6 +26,7 @@ export default function City({ city, activities, cities })
   
   
   // State
+  /*
   const [filterActivitiesState, setFilterActivitiesState] = useState({data: []});
   const [filterState, setFilterState] = useState(initialFilterState);
 
@@ -61,7 +62,7 @@ export default function City({ city, activities, cities })
       }
   }; 
   
-  
+  */
   return (
     <>
       <Layout>
@@ -79,8 +80,8 @@ export default function City({ city, activities, cities })
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           </div>
         </div>
-        <FilterActivities callback={handleFilter} />
-        <Activities data={filterActivitiesState} showTitle={false} />
+ 
+        <Activities  showTitle={false} />
         <Cities data={cities} exceptId={city.id} />
       </Layout>
     </>
