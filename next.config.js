@@ -1,6 +1,5 @@
 module.exports = {
   reactStrictMode: true,
-  optimizeFileTracing: false,
 
   images: {
     loader: "akamai",

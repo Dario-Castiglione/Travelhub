@@ -4,13 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Link from "next/link";
 import {
   SearchBarAppear,
   SearchBarDisappear,
   SearchFetch,
   hideResult,
-  toggleSideMenu,
+  toggleSideMenu
 } from "../../store/actions";
 
 export default function SearchBar() {
@@ -19,7 +18,7 @@ export default function SearchBar() {
   const isActive = useSelector((state) => state.searchBarActive);
   const data = useSelector((state) => state.searchData);
   const isShow = useSelector((state) => state.showResult);
-  const sideMenu = useSelector((state) => state.showSideMenu);
+  const sideMenu = useSelector(state => state.showSideMenu)
   function hide() {
     dispatch(hideResult);
   }
@@ -27,7 +26,8 @@ export default function SearchBar() {
   function handleSearch() {
     dispatch(SearchBarAppear);
 
-    sideMenu && dispatch(toggleSideMenu);
+    sideMenu && dispatch(toggleSideMenu)
+
   }
 
   function handleLeave() {
@@ -44,16 +44,20 @@ export default function SearchBar() {
       timer--;
       if (timer === 0) {
         e.target.value && dispatch(SearchFetch(e));
+
       }
     }, 1000);
   }
   function handleRouting(res) {
+    router.push(`/esperienze/${res.uuid}`);
     setTimeout(() => {
       dispatch(hideResult);
     }, 300);
   }
 
+
   let imgStyle = {};
+
 
   if (isActive) imgStyle = { opacity: "0" };
 
@@ -81,19 +85,15 @@ export default function SearchBar() {
           onMouseLeave={hide}
         >
           {data.data.map((res) => (
-       
-              <a href={`/esperienze/${res.uuid}`} key={res.uuid}>
-                <div className={style.info} onClick={() => handleRouting(res)}>
-                  <div className={style.img}>
-                    <Image src={res.cover_image_url} width={150} height={150} />
-                  </div>
-                  <div className={style.text}>
-                    <h3>{res.city.name}</h3>
-                    <p>{res.title}</p>
-                  </div>
-                </div>
-              </a>
-            
+            <div className={style.info} key={res.uuid} onClick={() => handleRouting(res)}>
+              <div className={style.img}>
+                <Image src={res.cover_image_url} width={150} height={150} />
+              </div>
+              <div className={style.text}>
+                <h3>{res.city.name}</h3>
+                <p>{res.title}</p>
+              </div>
+            </div>
           ))}
         </div>
       )}

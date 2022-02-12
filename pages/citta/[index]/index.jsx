@@ -7,6 +7,7 @@ import { API_URL, FETCH_HEADERS } from "../../../libs/variables";
 import axios from 'axios';
 import stylesTitle from "../../../components/SectionTitle/SectionTitle.module.scss";
 import { useState, useEffect } from "react";
+import FilterActivities from '../../../components/FilterActivities';
 
 const initialFilterState = {
   maxPrice: 100,
@@ -24,10 +25,42 @@ export default function City({ city, activities, cities })
   }
   
   
+  // State
+  const [filterActivitiesState, setFilterActivitiesState] = useState({data: []});
+  const [filterState, setFilterState] = useState(initialFilterState);
 
+  useEffect(() =>
+  {
+    setFilterActivitiesState({ data: activities.slice(0, 8) });
+  }, [activities]);
 
+  // Events
+  const handleFilter = (filters) =>
+  {
+      if(filters &&
+          (filterState.maxPrice != filters.maxPrice ||
+          filterState.category != filters.category))
+      {
+          setFilterState(filters);
 
+          setFilterActivitiesState({ data: activities.filter((value) =>
+          {
+              if(filters.category > 0)
+              {
+                return (
+                  value.verticals[0].id === filters.category &&
+                  value.retail_price.value <= filters.maxPrice
+                );
+              }
+              return (
+                value.verticals[0].id !== filters.category &&
+                value.retail_price.value <= filters.maxPrice 
+              );
 
+          }).slice(0, 8)}); 
+      }
+  }; 
+  
   
   return (
     <>
@@ -46,7 +79,8 @@ export default function City({ city, activities, cities })
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           </div>
         </div>
-        <Activities  showTitle={false} />
+        <FilterActivities callback={handleFilter} />
+        <Activities data={filterActivitiesState} showTitle={false} />
         <Cities data={cities} exceptId={city.id} />
       </Layout>
     </>
