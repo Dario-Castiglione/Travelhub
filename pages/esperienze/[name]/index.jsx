@@ -39,7 +39,7 @@ export default function Activity({activity}) {
     );
 }
 
-export async function getStaticProps({params}) {
+export async function getServerSideProps({params}) {
     const res = await fetch(
         `https://sandbox.musement.com/api/v3/activities/${params.name}`,
         {
@@ -57,24 +57,5 @@ export async function getStaticProps({params}) {
         props:{
             activity: data,
         },
-        revalidate: 10,
     };
 }
-
-export async function getStaticPaths() {
-    const res = await fetch("https://sandbox.musement.com/api/v3/activities");
-    const data = await res.json();
-
-    const paths = data.data.map((activity) => {
-        return {
-            params: {
-                name: `${activity.uuid}`,
-            },
-        };
-    });
-
-    return {
-        paths: paths,
-        fallback: "blocking",
-    };
-};

@@ -50,7 +50,7 @@ export default function City({ city, activities, cities })
 }
 
 
-export async function getStaticProps({ params }) 
+export async function getServerSideProps({ params }) 
 {
   const city = await axios(
     `${API_URL}cities/${params.index}`,
@@ -89,25 +89,3 @@ export async function getStaticProps({ params })
 }
 
 
-export async function getStaticPaths() 
-{
-  const cities = await axios(
-    `${API_URL}cities`,
-    {
-      headers: FETCH_HEADERS
-    }
-  );
-
-  const paths = cities.data.map((city) => {
-    return {
-      params: {
-        index: `${city.id}`,
-      },
-    };
-  });
-
-  return {
-    paths: paths,
-    fallback:"blocking",
-  };
-}
