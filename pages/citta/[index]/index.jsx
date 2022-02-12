@@ -106,7 +106,7 @@ export async function getStaticProps({ params })
   );
 
   const cities = await axios(
-    `${API_URL}cities?limit=6&without_events=yes`,
+    `${API_URL}cities?limit=5&without_events=yes`,
     {
       headers: FETCH_HEADERS
     }
