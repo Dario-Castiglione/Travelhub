@@ -18,6 +18,10 @@ export default function City({ city, activities, cities })
   // Router
   const router = useRouter();
 
+  if (router.isFallback) 
+  {
+    return <h1>loading</h1>;
+  }
   
   
 
@@ -50,7 +54,7 @@ export default function City({ city, activities, cities })
 }
 
 
-export async function getServerSideProps({ params }) 
+export async function getStaticProps({ params }) 
 {
   const city = await axios(
     `${API_URL}cities/${params.index}`,
@@ -89,3 +93,25 @@ export async function getServerSideProps({ params })
 }
 
 
+export async function getStaticPaths() 
+{
+  const cities = await axios(
+    `${API_URL}cities`,
+    {
+      headers: FETCH_HEADERS
+    }
+  );
+
+  const paths = cities.data.map((city) => {
+    return {
+      params: {
+        index: `${city.id}`,
+      },
+    };
+  });
+
+  return {
+    paths: paths,
+    fallback: true,
+  };
+}

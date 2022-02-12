@@ -10,7 +10,9 @@ import CityDescription from '../../../components/CityDescription';
 export default function Activity({activity}) {
     const router = useRouter();
 
-
+    if(router.isFallback) {
+        return <h1>loading</h1>;
+    }
 
     return (
         <>
@@ -39,7 +41,7 @@ export default function Activity({activity}) {
     );
 }
 
-export async function getServerSideProps({params}) {
+export async function getStaticProps({params}) {
     const res = await fetch(
         `https://sandbox.musement.com/api/v3/activities/${params.name}`,
         {
@@ -57,5 +59,24 @@ export async function getServerSideProps({params}) {
         props:{
             activity: data,
         },
+        revalidate: 10,
     };
 }
+
+export async function getStaticPaths() {
+    const res = await fetch("https://sandbox.musement.com/api/v3/activities");
+    const data = await res.json();
+
+    const paths = data.data.map((activity) => {
+        return {
+            params: {
+                name: `${activity.uuid}`,
+            },
+        };
+    });
+
+    return {
+        paths: paths,
+        fallback: true,
+    };
+};
