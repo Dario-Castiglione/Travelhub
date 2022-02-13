@@ -7,8 +7,12 @@ import { API_URL, FETCH_HEADERS } from "../../../libs/variables";
 import axios from 'axios';
 import stylesTitle from "../../../components/SectionTitle/SectionTitle.module.scss";
 import { useState, useEffect } from "react";
+import FilterActivities from '../../../components/FilterActivities';
 
-
+const initialFilterState = {
+  maxPrice: 100,
+  category: 0
+};
 
 export default function City({ city, activities, cities }) 
 {
@@ -22,10 +26,7 @@ export default function City({ city, activities, cities })
   
   
   // State
-
-  // Events
-
-  
+ 
   
   return (
     <>
@@ -44,7 +45,8 @@ export default function City({ city, activities, cities })
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           </div>
         </div>
-    
+        <FilterActivities  />
+        <Activities  showTitle={false} />
         <Cities data={cities} exceptId={city.id} />
       </Layout>
     </>
