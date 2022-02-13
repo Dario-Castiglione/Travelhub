@@ -18,6 +18,7 @@ const SimpleCard = (props) =>
                 alt={text}
                 layout="fill"
                 quality={2}
+                priority={true}
             />
             <p>{text}</p>
         </div>

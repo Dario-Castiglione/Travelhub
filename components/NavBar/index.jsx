@@ -43,11 +43,7 @@ export default function NavBar() {
 
       <div className={`${styles.logoDiv} ${styles.flexed}`}>
         <div className={styles.logo} onClick={() => router.push("/")}>
-          <Image src="../../logo.png"
-            alt="logo" 
-            layout="fill"
-            quality={100}
-            />
+          <Image src="../../logo.png" alt="logo" layout="fill" />
         </div>
       </div>
 

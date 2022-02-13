@@ -15,6 +15,7 @@
     border: none;
     z-index: 9;
 
+
     &::-webkit-scrollbar {
         width: 5px;
         transition: all 0.35s ease;
@@ -61,9 +62,18 @@
         .text{
             padding: 10px;
             color: $primary;
+            transition: all 0.2s ease;
+            .cityName{
+                
+                &:hover{
+                    color: $alternative;
+                }
+            }
             p{
                 margin-top: 5px;
                 color: $quaternary;
+                height: 100%;
+                
             }
         }
         
