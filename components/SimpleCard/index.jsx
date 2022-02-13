@@ -17,8 +17,7 @@ const SimpleCard = (props) =>
                 src={image}
                 alt={text}
                 layout="fill"
-                quality={2}
-                priority={true}
+                loading='eager'
             />
             <p>{text}</p>
         </div>
