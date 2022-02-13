@@ -16,6 +16,16 @@ const initialFilterState = {
 
 export default function City({ city, activities, cities }) 
 {
+  // State
+  const [filterActivitiesState, setFilterActivitiesState] = useState({data: []});
+  const [filterState, setFilterState] = useState(initialFilterState);
+  
+  useEffect(() =>
+  {
+    console.log(activities);
+    setFilterActivitiesState({ data: activities.slice(0, 8) });
+  }, [activities]);
+  
   // Router
   const router = useRouter();
 
@@ -23,10 +33,34 @@ export default function City({ city, activities, cities })
   {
     return <h1>loading</h1>;
   }
+
+  // Events
+  const handleFilter = (filters) =>
+  {
+      if(filters &&
+          (filterState.maxPrice != filters.maxPrice ||
+          filterState.category != filters.category))
+      {
+          setFilterState(filters);
+
+          setFilterActivitiesState({ data: activities.filter((value) =>
+          {
+              if(filters.category > 0)
+              {
+                return (
+                  value.verticals.length && value.verticals[0].id === filters.category &&
+                  value.retail_price.value <= filters.maxPrice
+                );
+              }
+              return (
+                value.verticals.length && value.verticals[0].id !== filters.category &&
+                value.retail_price.value <= filters.maxPrice 
+              );
+
+          }).slice(0, 8)}); 
+      }
+  }; 
   
-  
-  // State
- 
   
   return (
     <>
@@ -45,8 +79,8 @@ export default function City({ city, activities, cities })
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           </div>
         </div>
-        <FilterActivities  />
-        <Activities  showTitle={false} />
+        <FilterActivities callback={handleFilter} />
+        <Activities data={filterActivitiesState} showTitle={false} />
         <Cities data={cities} exceptId={city.id} />
       </Layout>
     </>

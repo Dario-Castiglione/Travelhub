@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import styles from './FilterActivities.module.scss';
 
@@ -11,7 +10,7 @@ const FilterActivities = ({ callback }) =>
     useEffect(() => 
     {
         callback({ maxPrice: maxPrice, category: category });
-    }, [maxPrice, category]);
+    }, [callback, maxPrice, category]);
     
     //prova filtri statici
     return (
