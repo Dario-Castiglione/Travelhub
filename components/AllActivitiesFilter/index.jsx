@@ -7,28 +7,25 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import ActivityCard from "../ActivityCard";
 import { useEffect } from "react";
-import { Router, useRouter } from "next/router";
-
-//https://sandbox.musement.com/api/v3/activities?text_operator=AUTO&extend_other_languages=AUTO&extend_content_fields=AUTO&fuzziness_level=LEVEL-0&zero_terms_query=NONE&category_in=CATEGORIA&default_price_range=00.00%2CMAXPREX&limit=10&offset=0
+import { useRouter } from "next/router";
+import { FilterCity } from "./FilterCity";
 
 export default function ActivitiesFilter() {
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   const data = useSelector((state) => state.allActivities);
   const [state, setState] = useState({
     maxPrice: 200,
-    category: "Palermo",
+    category: "",
     pagination: 0,
+    up: false,
+    categoria: "",
+    city: "",
   });
-  const [input, setInput] = useState(100);
+  const [input, setInput] = useState(200);
 
-  let counter = 0;
   useEffect(() => {
-    counter++;
-    setTimeout(() => {
-      counter--;
-      counter === 0 && dispatch(filterActivities(state));
-    }, 1000);
+    dispatch(filterActivities(state));
   }, [state]);
 
   useEffect(() => {
@@ -37,20 +34,119 @@ export default function ActivitiesFilter() {
 
   function handleChange(e) {
     setInput(e.target.value);
-
-    setTimeout(() => {
-      setState({ ...state, maxPrice: e.target.value });
-    }, 1000);
+  }
+  function handleMouseUp(e) {
+    setState({ ...state, maxPrice: e.target.value, up: false });
   }
 
   function handleCategory(category) {
-    setState({ ...state, category: category, pagination: 0 });
+    console.log(category);
+    setState({
+      ...state,
+      category: category.category,
+      pagination: 0,
+      up: false,
+      categoria: category.name,
+      id: category.id,
+    });
   }
 
+  const category = [
+    {
+      name: "Tutto",
+      color: "#000",
+      category: "",
+    },
+    {
+      name: "Arte e musei",
+      color: "#011627",
+      category: "arts-culture",
+    },
+    {
+      name: "Tour e attrazioni",
+      color: "#E71D36",
+      category: "sightseeing",
+    },
+    {
+      name: "Spettacoli e concerti",
+      color: "red",
+      category: "entertainment",
+    },
+    {
+      name: "Food & wine",
+      color: "#FF9F1C",
+      category: "food-wine",
+    },
+    {
+      name: "Sport e avventura",
+      color: "#2EC4B6",
+      category: "adventure",
+    },
+    {
+      name: "Eventi sportivi",
+      color: "#21005D",
+      category: "sports",
+    },
+    {
+      name: "Nightlife",
+      color: "#410E0B",
+      category: "nightlife",
+    },
+  ];
+
+  let pagineTot = data.meta ? Math.ceil(data.meta.count / 8) : 0;
+  let paginationDyn = state.pagination - 4;
+
+  function addButton() {
+    paginationDyn++;
+    const clickon = paginationDyn;
+    return (
+      <ButtonHero
+        key={clickon}
+        active={state.pagination === clickon && true}
+        forActivities={true}
+        dir={
+          (pagineTot >= paginationDyn + 1) & (paginationDyn >= 0)
+            ? paginationDyn + 1
+            : ""
+        }
+        action={
+          (pagineTot >= paginationDyn) & (paginationDyn >= 0)
+            ? () => setState({ ...state, pagination: clickon, up: true })
+            : () => console.log("")
+        }
+      />
+    );
+  }
+
+  function categorie(el) {
+    if (el.verticals[1]) {
+      if (state.categoria === el.verticals[1].name) return el.verticals[1];
+      else return el.verticals[0];
+    } else return el.verticals[0];
+  }
+  console.log(data);
   return (
     <>
-      <div className={style.container}>
+      <div id="up" className={style.container}>
+        <div className={style.citySearch}>
+          <FilterCity setter={setState} />
+        </div>
+
+        <div className={style.buttons}>
+          {category.map((category, id) => (
+            <button
+              key={id}
+              style={{ background: category.color }}
+              onClick={() => handleCategory(category)}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+
         <div className={style.inputDiv}>
+          <p>€ 0</p>
           <input
             type="range"
             min="1"
@@ -58,47 +154,34 @@ export default function ActivitiesFilter() {
             value={input}
             step="1"
             onChange={handleChange}
+            onMouseUp={handleMouseUp}
           />
           <p>
-            Prezzo massimo: <span>{input}</span>
+            € <span>{input}</span>
           </p>
-        </div>
-
-        <div className={style.buttons}>
-          <button onClick={() => handleCategory("arte e musei")}>
-            Arte e musei
-          </button>
-          <button onClick={() => handleCategory("tour e attrazioni")}>
-            Tour e attrazioni
-          </button>
-          <button onClick={() => handleCategory("Spettacoli e concerti")}>
-            Spettacoli e concerti
-          </button>
-          <button onClick={() => handleCategory("cibo e vino")}>
-            Food & wine
-          </button>
-          <button onClick={() => handleCategory("avventura")}>avventura</button>
-          <button onClick={() => handleCategory("eventi sportivi")}>
-            Eventi Sportivi
-          </button>
-          <button onClick={() => handleCategory("nightlife")}>Nightlife</button>
-        </div>
-
-        <div className={style.search}>
-        
         </div>
       </div>
 
       <div className={style.allactivities}>
+        {data.meta && data.meta.count === 0 && (
+          <div className={style.noResult}>
+            <h3>Ops.. Sembra che non ci siano risultati</h3>
+            <p>prova a cambiare parametri</p>
+          </div>
+        )}
         {data.data &&
           data.data.map((el) => (
-            <div className={style.singleActivity} key={el.uuid} onClick={() => router.push(`/esperienze/${el.uuid}`)}>
-              <ActivityCard 
+            <div
+              className={style.singleActivity}
+              key={el.uuid}
+              onClick={() => router.push(`/esperienze/${el.uuid}`)}
+            >
+              <ActivityCard
                 title={el.title}
-                image={el.cover_image_url}
+                image={el.cover_image_url || el.city.cover_image_url}
                 price={el.retail_price.formatted_iso_value}
-                category=""
-                text={el.description}
+                category={categorie(el)}
+                text={el.description || el.operational_days}
               />
             </div>
           ))}
@@ -106,15 +189,41 @@ export default function ActivitiesFilter() {
 
       <div className={style.pagination}>
         <ButtonHero
+          forActivities={true}
+          dir={"<<"}
           action={() =>
             state.pagination > 0 &&
-            setState({ ...state, pagination: state.pagination - 8 })
+            setState({ ...state, pagination: 0, up: true })
           }
         />
         <ButtonHero
-          dir=">"
+          forActivities={true}
           action={() =>
-            setState({ ...state, pagination: state.pagination + 8 })
+            state.pagination > 0 &&
+            setState({ ...state, pagination: state.pagination - 1, up: true })
+          }
+        />
+        {data.meta && [...Array(7)].map((index) => addButton())}
+
+        <ButtonHero
+          dir=">"
+          forActivities={true}
+          action={() =>
+            setState({
+              ...state,
+              pagination:
+                state.pagination < pagineTot - 1
+                  ? state.pagination + 1
+                  : state.pagination,
+              up: true,
+            })
+          }
+        />
+        <ButtonHero
+          dir=">>"
+          forActivities={true}
+          action={() =>
+            setState({ ...state, pagination: pagineTot - 1, up: true })
           }
         />
       </div>
