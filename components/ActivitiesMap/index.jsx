@@ -10,12 +10,6 @@ import ActivityCard from "../ActivityCard";
 import SectionTitle from "../SectionTitle";
 import Image from 'next/image';
 import style from "./ActivitiesMap.module.scss";
-import mapboxgl from 'mapbox-gl';
-import MapboxWorker from 'mapbox-gl/dist/mapbox-gl-csp-worker';
-mapboxgl.workerClass = MapboxWorker;
-// eslint-disable-next-line import/no-webpack-loader-syntax
-// @ts-ignore
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 export default function ActivitiesMap() 
 {
@@ -103,7 +97,7 @@ export default function ActivitiesMap()
                   longitude: coor.longitude,
                   zoom: 14,
                 }}
-                style={{ width: "100%", height: "100%" }}
+                //style={{ width: "100%", height: "100%" }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken="pk.eyJ1IjoiZGFyaW8wMSIsImEiOiJja3pxd3Z5emszd2U3MnFucmY0MjhjcXNmIn0.wDD6isH55l8WG5XtPgDNkg"
               >
