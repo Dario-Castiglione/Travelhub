@@ -49,9 +49,9 @@ export default function Activity({ activity, cities }){
 
     useEffect(() => 
     {
-        if(session && activity && cartState)
+        if(session && activity && cartState.length)
         {
-            if(cartState.filter((item) => item.id == activity.uuid))
+            if(cartState.filter((item) => item.id == activity.uuid).length)
                 setIsAdded(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

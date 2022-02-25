@@ -97,7 +97,7 @@ export default function ActivitiesMap()
                   longitude: coor.longitude,
                   zoom: 14,
                 }}
-                //style={{ width: "100%", height: "100%" }}
+                style={{ width: "100%", height: "100%" }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken="pk.eyJ1IjoiZGFyaW8wMSIsImEiOiJja3pxd3Z5emszd2U3MnFucmY0MjhjcXNmIn0.wDD6isH55l8WG5XtPgDNkg"
               >
