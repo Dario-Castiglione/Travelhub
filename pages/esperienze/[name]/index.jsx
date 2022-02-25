@@ -49,7 +49,7 @@ export default function Activity({ activity, cities }){
 
     useEffect(() => 
     {
-        if(session && activity && cartState)
+        if(session && activity )
         {
             if(cartState.filter((item) => item.id == activity.uuid))
                 setIsAdded(true);

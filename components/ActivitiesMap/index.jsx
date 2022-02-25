@@ -79,6 +79,7 @@ export default function ActivitiesMap()
         <SectionTitle
             title={t('activitiesMap_section_title')}
             showBtn={false}
+            style="mapbox://styles/mapbox/streets-v9"
             description={t('activitiesMap_section_description')}
           />
       </div>
