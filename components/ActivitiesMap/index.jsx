@@ -12,7 +12,7 @@ import Image from 'next/image';
 import style from "./ActivitiesMap.module.scss";
 import mapboxgl from 'mapbox-gl';
 import MapboxWorker from 'mapbox-gl/dist/mapbox-gl-csp-worker';
-
+mapboxgl.workerClass = MapboxWorker;
 // eslint-disable-next-line import/no-webpack-loader-syntax
 // @ts-ignore
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
