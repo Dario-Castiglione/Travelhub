@@ -10,6 +10,12 @@ import ActivityCard from "../ActivityCard";
 import SectionTitle from "../SectionTitle";
 import Image from 'next/image';
 import style from "./ActivitiesMap.module.scss";
+import mapboxgl from 'mapbox-gl';
+import MapboxWorker from 'mapbox-gl/dist/mapbox-gl-csp-worker';
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+// @ts-ignore
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 export default function ActivitiesMap() 
 {
@@ -79,7 +85,6 @@ export default function ActivitiesMap()
         <SectionTitle
             title={t('activitiesMap_section_title')}
             showBtn={false}
-            style="mapbox://styles/mapbox/streets-v9"
             description={t('activitiesMap_section_description')}
           />
       </div>
