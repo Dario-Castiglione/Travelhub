@@ -1,4 +1,6 @@
-const initState = {
+
+const initState = 
+{
     data: [],
     carouselFirstInst: {},
     carouselSecondInst: {},
@@ -8,9 +10,12 @@ const initState = {
     showResult: false,
     showSideMenu: false,
     allActivities: [],
-    searchCity: ""
+    searchCity: "",
+    mapData:"",
 }
-const reducer = (state = initState, action) => {
+
+const reducer = (state = initState, action) => 
+{
     switch (action.type) {
         case "setCarouselFirstInst":
             return{
@@ -66,6 +71,16 @@ const reducer = (state = initState, action) => {
             return{
                 ...state,
                 allActivities: action.payload,
+            }
+        case "setCart":
+            return {
+                ...state,
+                cart: action.payload,
+            }
+        case "SetMapData":
+            return{
+                ...state,
+                mapData: action.payload,
             }
         default :
             return state;   

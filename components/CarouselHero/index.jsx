@@ -4,26 +4,24 @@ import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useDispatch } from "react-redux";
 import { setCarouselFirstInst, setCarouselIndex } from "../../store/actions";
-import { Navigation, Pagination, Scrollbar, A11y, Controller } from "swiper";
 import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import SimpleCard from "../SimpleCard";
 
-export default function CarouselHero({ data }) 
-{
+export default function CarouselHero({ data }){
   const dispatch = useDispatch();
   const firstInst = useSelector((state) => state.carouselFirstInst);
   const secondInst = useSelector((state) => state.carouselSecondInst);
 
   function handlePrev() {
     firstInst.slidePrev(), secondInst.slidePrev();
-    dispatch(setCarouselIndex(firstInst.realIndex));
+    dispatch(setCarouselIndex(secondInst.realIndex));
   }
   function handleNext() {
     firstInst.slideNext(), secondInst.slideNext();
-    dispatch(setCarouselIndex(firstInst.realIndex));
+    dispatch(setCarouselIndex(secondInst.realIndex));
   }
 
   return (
@@ -31,9 +29,8 @@ export default function CarouselHero({ data })
       <div className={style.container}>
         <Swiper
           className={style.carousel}
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={10}
-          allowTouchMove={true}
+          allowTouchMove={false}
           loop={true}
           speed={800}
           slidesPerView={1}
@@ -44,7 +41,6 @@ export default function CarouselHero({ data })
             allowTouchMove:false
           }
           }}
-          scrollbar={{ draggable: true }}
           onSwiper={(swiper) => dispatch(setCarouselFirstInst(swiper))}
         >
           {data.map((slide, index) => (
